@@ -1,0 +1,3 @@
+# fdutils
+
+THIS PROJECT IS DEPRECATED. DON’T USE IT.
