@@ -27,6 +27,17 @@
                 : entities
             ;
         },
+        add: function (obj) {
+            if(!this.entities.hasOwnProperty(obj.id)) {
+                this.entities[obj.id] = obj;
+            }
+        },
+        count: function () {
+            return Object.keys(this.entities).length;
+        },
+        findAll: function() {
+            return this.entities;
+        },
         find: function(id) {
             id = parseInt(id);
 
@@ -44,22 +55,9 @@
 
             this.dispatchEvent("entity:remove:execute", entity);
 
-            $.ajax(this.urlGenerator.generate("remove", entity), {
-                type: "DELETE"
-            })
-                .done(function() {
-                    delete _self.entities[entity.id];
-                    onRemoved(true);
-                    _self.dispatchEvent("entity:remove:success", entity);
-                })
-                .fail(function(xhr, status, error) {
-                    onRemoved(false, {
-                        entity: entity,
-                        message: error
-                    });
-                    _self.dispatchEvent("entity:remove:failure", entity, error);
-                })
-            ;
+            delete _self.entities[entity.id];
+            onRemoved(true);
+            _self.dispatchEvent("entity:remove:success", entity);
         },
         update: function(id, data, onUpdated) {
             var entity = this.find(id);
